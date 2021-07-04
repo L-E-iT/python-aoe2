@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 setup(
     name='pythonaoe2',
     packages=find_packages(include=['pythonaoe2']),
-    version='0.1.2',
+    version='0.2.0',
     description='Using Python to interact with the AOE2 API',
     author='Brian Elliott',
     license='MIT',
