@@ -59,6 +59,7 @@ def test_unit():
     resp = aoe2.Client(TEST_URL, TEST_VERSION).get_unit("Eagle_Warrior")
 
     assert resp.name == "Eagle Warrior"
+    assert "age.api" not in resp.created_in
 
 @responses.activate
 def test_structure404():
@@ -100,6 +101,8 @@ def test_technology():
 
     assert resp.name == "Heresy"
     assert resp.applies_to[0] == "Monks"
+    assert "age.api" not in resp.develops_in
+    assert "age.api" not in resp.applies_to[0]
 
 @responses.activate
 def test_recursive_civ_unique_unit_multiple():

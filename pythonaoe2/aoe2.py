@@ -46,12 +46,16 @@ class Client:
         """Returns all untis as objects"""
         api_endpoint = "/units"
         data = self._request(api_endpoint)
+        for unit in data.units:
+            unit.created_in = self._recurse_unit_building(unit)
         return data.units
 
     def get_unit(self, id):
         """Returns single unit object by ID or Name"""
         api_endpoint = "/unit/" + id
-        return self._request(api_endpoint)
+        data = self._request(api_endpoint)
+        data.created_in = self._recurse_unit_building(data)
+        return data
 
     def get_all_structures(self):
         """Returns all structures as objects"""
@@ -68,12 +72,16 @@ class Client:
         """Returns all technologies as objects"""
         api_endpoint = "/technologies"
         data = self._request(api_endpoint)
+        for tech in data.technologies:
+            tech.develops_in = self._recurse_tech_building(tech)
         return data.technologies
 
     def get_technology(self, id):
         """Returns single technology by ID or Name"""
         api_endpoint = "/technology/" + id
-        return self._request(api_endpoint)
+        data = self._request(api_endpoint)
+        data.develops_in = self._recurse_tech_building(data)
+        return data
 
     def _recurse_civ_unit(self, civilization):
         unique_units = []
@@ -96,13 +104,15 @@ class Client:
         return unique_techs
 
     def _recurse_unit_building(self, unit):
-        #TODO Finish this
-        return True
+        return unit.created_in.split("/")[-1].lower().replace(" ","_")
 
     def _recurse_tech_building(self, tech):
-         #TODO Finish this
-        return True
+         return tech.develops_in.split("/")[-1].lower().replace(" ","_")
 
     def _recurse_tech_applies(self, tech):
-         #TODO Finish this
-        return True
+        applies_to = []
+        if len(tech.applies_to) > 1:
+            for applied in tech.applies_to:
+                applies_to.append(applied.split("/")[-1].lower().replace(" ","_"))
+        else:
+            applies_to.append(tech.applies_to[0].split("/")[-1].lower().replace(" ","_"))
