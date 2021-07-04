@@ -1,0 +1,5 @@
+setuptools
+pytest
+pytest-runner
+wheel
+requests
