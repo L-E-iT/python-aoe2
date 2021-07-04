@@ -7,8 +7,6 @@ from pytest import raises
 import requests
 import responses
 
-#TODO Create tests for other calls pass/fail
-
 @responses.activate
 def test_civilization404():
     responses.add(responses.GET,

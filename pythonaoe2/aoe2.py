@@ -2,8 +2,6 @@ import requests
 from types import SimpleNamespace
 import json
 
-#TODO Account for nested api calls that might need to be made to have a complete data object
-
 class Client:
     def __init__(self, url="https://age-of-empires-2-api.herokuapp.com/api/", version="v1"):
         self.url = url
