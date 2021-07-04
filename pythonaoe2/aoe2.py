@@ -79,10 +79,9 @@ class Client:
         unique_units = []
         if len(civilization.unique_unit) > 1:
             for unit in civilization.unique_unit:
-                unique_units.append(self.get_unit(unit.split("/")[-1]))
+                unique_units.append(unit.split("/")[-1].lower().replace(" ","_"))
         else:
-            unit = civilization.unique_unit[0].split("/")[-1]
-            unique_units.append(self.get_unit(unit))
+            unique_units.append(civilization.unique_unit[0].split("/")[-1].lower().replace(" ","_"))
 
         return unique_units
 
@@ -90,10 +89,9 @@ class Client:
         unique_techs = []
         if len(civilization.unique_tech) > 1:
             for tech in civilization.unique_tech:
-                unique_techs.append(self.get_technology(tech.split("/")[-1]))
+                unique_techs.append(tech.split("/")[-1].lower().replace(" ","_"))
         else:
-            tech = civilization.unique_tech[0].split("/")[-1]
-            unique_techs.append(self.get_technology(tech))
+            unique_techs.append(civilization.unique_tech[0].split("/")[-1].lower().replace(" ","_"))
 
         return unique_techs
 

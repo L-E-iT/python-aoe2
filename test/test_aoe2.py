@@ -32,13 +32,14 @@ def test_civilization():
     TEST_FULL_URL + '/technology/garland_wars',
     json=GARLAND_WARS_RESULT, status=200)
 
-    resp = aoe2.Client(TEST_URL, TEST_VERSION).get_civilization("Aztecs")
+    resp = aoe2.Client(TEST_URL, TEST_VERSION)
+    data = resp.get_civilization("Aztecs")
 
-    assert resp.name == "Aztecs"
-    assert "age.api" not in resp.unique_unit
-    assert "age.api" not in resp.unique_tech
-    assert resp.unique_tech[0].name == "Garland Wars"
-    assert resp.unique_unit[0].name == "Jaguar Warrior"
+    assert data.name == "Aztecs"
+    assert "age.api" not in data.unique_unit
+    assert "age.api" not in data.unique_tech
+    assert resp.get_technology(data.unique_tech[0]).name == "Garland Wars"
+    assert resp.get_unit(data.unique_unit[0]).name == "Jaguar Warrior"
 
 @responses.activate
 def test_units404():
@@ -113,8 +114,8 @@ def test_recursive_civ_unique_unit_multiple():
     data = SimpleNamespace(**KOREANS_RESULT)
     resp = aoe2.Client(TEST_URL, TEST_VERSION)._recurse_civ_unit(data)
 
-    assert resp[0].name == "War Wagon"
-    assert resp[1].name == "Turtle Ship"
+    assert resp[0] == "war_wagon"
+    assert resp[1] == "turtle_ship"
 
 @responses.activate
 def test_recursive_civ_unique_technology_multiple():
@@ -133,6 +134,6 @@ def test_recursive_civ_unique_technology_multiple():
     data = SimpleNamespace(**GOTH_RESULT)
     resp = aoe2.Client(TEST_URL, TEST_VERSION)._recurse_civ_tech(data)
 
-    assert resp[0].name == "Anarchy"
-    assert resp[1].name == "Perfusion"
+    assert resp[0] == "anarchy"
+    assert resp[1] == "perfusion"
 
