@@ -65,6 +65,29 @@ KOREANS_RESULT={
       ]
     }
 
+KHMER_RESULT={
+      "id": 27,
+      "name": "Khmer",
+      "expansion": "Rise of Rajas",
+      "army_type": "Siege and Elephant Civilzation",
+      "unique_unit": [],
+      "unique_tech": [],
+      "team_bonus": "Scorpions have +1 range",
+      "civilization_bonus": [
+        "Prereq buildings aren't required to advance to further ages or unlock other buildings",
+        "Battle Elephants are +15% faster",
+        "Villagers can garrison in Houses"
+      ]
+    }
+
+NO_UNIT_RESULT=    {
+      "unique_unit": []
+}
+
+NO_TECH_RESULT={
+      "unique_tech": []
+}
+
 EAGLE_WARRIOR_RESULT={
   "id": 9,
   "name": "Eagle Warrior",

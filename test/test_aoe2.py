@@ -1,6 +1,6 @@
 import json
 from types import SimpleNamespace
-from test.constants import ANARCHY_RESULT, AZTEC_RESULT, BARRACKS_RESULT, EAGLE_WARRIOR_RESULT, GARLAND_WARS_RESULT, GOTH_RESULT, HERESY_RESULT, HUSKARL_RESULT, JAGUAR_WARRIOR_RESULT, KOREANS_RESULT, PERFUSION_RESULT, TEST_FULL_URL, TEST_URL, TEST_VERSION, TURTLE_SHIP_RESULT, UNIQUE_UNIT_INPUT_SINGLE, WAR_WAGON_RESULT
+from test.constants import ANARCHY_RESULT, AZTEC_RESULT, BARRACKS_RESULT, EAGLE_WARRIOR_RESULT, GARLAND_WARS_RESULT, GOTH_RESULT, HERESY_RESULT, HUSKARL_RESULT, JAGUAR_WARRIOR_RESULT, KHMER_RESULT, KOREANS_RESULT, NO_TECH_RESULT, NO_UNIT_RESULT, PERFUSION_RESULT, TEST_FULL_URL, TEST_URL, TEST_VERSION, TURTLE_SHIP_RESULT, WAR_WAGON_RESULT
 import pytest
 from pythonaoe2 import aoe2
 from pytest import raises
@@ -95,12 +95,19 @@ def test_technology():
     TEST_FULL_URL + '/technology/Heresy',
     json=HERESY_RESULT, status=200)
 
+    responses.add(responses.GET,
+    TEST_FULL_URL + "/technology/Garland_Wars",
+    json=GARLAND_WARS_RESULT, status=200)
+
     resp = aoe2.Client(TEST_URL, TEST_VERSION).get_technology("Heresy")
+    resp_garland = aoe2.Client(TEST_URL, TEST_VERSION).get_technology("Garland_Wars")
 
     assert resp.name == "Heresy"
-    assert resp.applies_to[0] == "Monks"
+    assert resp.applies_to[0] == "monks"
     assert "age.api" not in resp.develops_in
     assert "age.api" not in resp.applies_to[0]
+    assert "age.api" not in resp_garland.applies_to[0]
+
 
 @responses.activate
 def test_recursive_civ_unique_unit_multiple():
@@ -138,3 +145,22 @@ def test_recursive_civ_unique_technology_multiple():
     assert resp[0] == "anarchy"
     assert resp[1] == "perfusion"
 
+@responses.activate
+def test_civ_no_unit():
+    responses.add(responses.GET,
+    TEST_FULL_URL + '/civilization/khmer',
+    json=KHMER_RESULT, status=200)
+
+    resp = aoe2.Client(TEST_URL, TEST_VERSION).get_civilization("khmer")
+
+    assert resp.unique_unit == []
+
+@responses.activate
+def test_civ_no_tech():
+    responses.add(responses.GET,
+    TEST_FULL_URL + '/civilization/khmer',
+    json=KHMER_RESULT, status=200)
+
+    resp = aoe2.Client(TEST_URL, TEST_VERSION).get_civilization("khmer")
+
+    assert resp.unique_tech == []
