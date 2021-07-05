@@ -1,5 +1,6 @@
 # python-aoe2
- 
+https://pypi.org/project/pythonaoe2/
+
 ## How to Use:
 
 ### Import the library:
